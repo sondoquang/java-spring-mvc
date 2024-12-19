@@ -6,9 +6,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RestController
 public class HelloController {
 
-    @GetMapping("/hello")
+    @GetMapping("/")
     public String index() {
-        return "Hello Java Spring Boot with SonDoItNow";
+        return "Hello Java Spring Boot Update";
+    }
+
+    @GetMapping("/user")
+    public String userPage() {
+        return "User Page";
+    }
+
+    @GetMapping("/admin")
+    public String adminPage() {
+        return "Admin Page";
     }
 
 }
