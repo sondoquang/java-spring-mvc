@@ -21,12 +21,14 @@
                     <div class="row">
                         <div class="col-md-6 col-12 mx-auto">
                             <h2>Update a User</h2>
-                            <form:form action="/admin/users/create" method="post" modelAttribute="newUser">
-
+                            <form:form action="/admin/users/update" method="post" modelAttribute="newUser">
+                                <div class="mb-3 d-none">
+                                    <label class="form-label">Id:</label>
+                                    <form:input type="text" class="form-control" path="id" readonly="true" />
+                                </div>
                                 <div class="mb-3">
                                     <label class="form-label">Email address:</label>
-                                    <form:input type="text" class="form-control" path="email"
-                                        placeholder="Enter email" />
+                                    <form:input type="text" class="form-control" path="email" readonly="true" />
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Password:</label>

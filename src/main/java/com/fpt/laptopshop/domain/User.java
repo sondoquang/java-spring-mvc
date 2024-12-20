@@ -1,6 +1,5 @@
 package com.fpt.laptopshop.domain;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,7 +11,7 @@ import jakarta.persistence.Table;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String email;
     private String password;
     private String fullName;
@@ -22,7 +21,7 @@ public class User {
     public User() {
     }
 
-    public User(Integer id, String email, String password, String fullName, String address, String phone) {
+    public User(Long id, String email, String password, String fullName, String address, String phone) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -37,11 +36,11 @@ public class User {
                 + fullName + ", address=" + address + ", phone=" + phone + "]";
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
