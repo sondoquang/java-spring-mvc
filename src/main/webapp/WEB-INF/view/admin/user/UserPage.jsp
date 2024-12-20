@@ -48,6 +48,7 @@
                                     <form:input type="text" class="form-control" path="address"
                                         placeholder="Enter address" />
                                 </div>
+                                <p>${message}</p>
                                 <div class="mt-3">
                                     <button type="submit" class="btn btn-primary">Create</button>
                                 </div>

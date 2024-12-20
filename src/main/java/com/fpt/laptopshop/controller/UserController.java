@@ -1,6 +1,7 @@
 package com.fpt.laptopshop.controller;
 
 import com.fpt.laptopshop.domain.User;
+import com.fpt.laptopshop.repository.UserRepository;
 import com.fpt.laptopshop.service.UserService;
 
 import org.springframework.stereotype.Controller;
@@ -26,8 +27,10 @@ public class UserController {
 
     @RequestMapping(value = "/admin/user/create", method = RequestMethod.POST)
     public String getHomePage(Model model, @ModelAttribute("newUser") User user) {
-        System.out.println(user);
-        return "hello";
+        User saveUser = userService.addUser(user);
+        System.out.println(saveUser);
+        model.addAttribute("message", "Create user success");
+        return "/admin/user/UserPage";
     }
 
 }
