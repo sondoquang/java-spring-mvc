@@ -31,15 +31,23 @@
                                     <li class="breadcrumb-item">User</li>
                                 </ol>
                             </div>
-                            <div class="p-4 mt-5">
-                                <p class="text-danger">Delete user with id: ${userId}</p>
-                                <div class="alert alert-warning" role="alert">
-                                    Are you sure to delete this user!
+                            <div class="p-4 ">
+                                <div class="table mt-3">
+                                    <div class="d-flex justify-content-between mb-3">
+                                        <h2>User Information with id: ${userId}</h2>
+                                    </div>
+                                    <hr>
+                                    <div class="card" style="width:60%;">
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item">User Id: ${user.id}</li>
+                                            <li class="list-group-item">Email: ${user.email}</li>
+                                            <li class="list-group-item">FullName: ${user.fullName}</li>
+                                            <li class="list-group-item">Address: ${user.address}</li>
+                                            <li class="list-group-item">Password: ${user.password}</li>
+
+                                        </ul>
+                                    </div>
                                 </div>
-                                <p>${message}</p>
-                                <form action="/admin/users/${userId}/delete" method="post">
-                                    <button type="submit" class="btn btn-danger">Delete</button>
-                                </form>
                             </div>
                         </main>
                         <jsp:include page="../layout/Footer.jsp" />

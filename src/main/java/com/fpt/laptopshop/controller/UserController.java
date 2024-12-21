@@ -26,14 +26,14 @@ public class UserController {
     public String getUsers(Model model) {
         List<User> users = userService.findAll();
         model.addAttribute("users", users);
-        return "/admin/user/TableUser";
+        return "/admin/user/Show";
     }
 
     @GetMapping(value = "/admin/users/{userId}/view")
     public String getUserDetailById(Model model, @PathVariable long userId) {
         User user = userService.findById(userId);
         model.addAttribute("user", user);
-        return "/admin/user/UserDetail";
+        return "/admin/user/Detail";
     }
 
     @GetMapping(value = "/admin/users/create")
