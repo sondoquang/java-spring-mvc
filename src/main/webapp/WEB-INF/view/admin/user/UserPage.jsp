@@ -36,8 +36,14 @@
                                     <div class="col-md-10 col-12 mx-auto">
                                         <h2>Create a User</h2>
                                         <hr>
-                                        <form:form action="/admin/users/create" method="post" modelAttribute="newUser">
+                                        <form:form action="/admin/users/create" method="post" modelAttribute="newUser"
+                                            enctype="multipart/form-data">
                                             <div class="row">
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label">Email:</label>
+                                                    <form:input type="email" class="form-control" path="email"
+                                                        placeholder="Enter email" />
+                                                </div>
                                                 <div class="col-md-6 mb-3">
                                                     <label class="form-label">Password:</label>
                                                     <form:input type="password" class="form-control" path="password"
@@ -60,16 +66,16 @@
                                                 </div>
                                                 <div class="col-md-6 mb-3">
                                                     <label class="form-label">Role :</label>
-                                                    <select class="form-select" aria-label="Default select example">
-                                                        <option value="1" selected>Admin</option>
-                                                        <option value="2">User</option>
-                                                    </select>
+                                                    <form:select class="form-select" path="role.name">
+                                                        <form:option value="admin">Admin</form:option>
+                                                        <form:option value="user">User</form:option>
+                                                    </form:select>
                                                 </div>
                                                 <div class="col-md-6 mb-3">
                                                     <label class="form-label">Upload Avatar :</label>
                                                     <div class="input-group">
                                                         <input type="file" class="form-control" id="avatarFile"
-                                                            accept=".png, .jpg, .web, .jpeg">
+                                                            accept=".png, .jpg, .web, .jpeg" name="fileAvatar" />
                                                         <label class="input-group-text" for="avatarFile">Upload</label>
                                                     </div>
                                                 </div>
