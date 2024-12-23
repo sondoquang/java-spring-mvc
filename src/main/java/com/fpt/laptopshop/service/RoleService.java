@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import com.fpt.laptopshop.domain.Role;
 import com.fpt.laptopshop.repository.RoleRepository;
+import com.fpt.laptopshop.service.iservice.IRoleService;
 
 @Service
 public class RoleService implements IRoleService {

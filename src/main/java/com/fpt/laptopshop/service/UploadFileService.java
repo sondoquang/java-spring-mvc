@@ -20,16 +20,18 @@ public class UploadFileService {
     }
 
     public String uploadFile(MultipartFile file, String folder) throws IOException {
+        if (file.isEmpty()) {
+            return "";
+        }
         byte[] bytes = file.getBytes();
-        String rootPath = this.servletContext.getRealPath(folder);
+        String rootPath = this.servletContext.getRealPath("/resources/images");
         String fileName = file.getOriginalFilename();
-        File dir = new File(rootPath + File.separator + "avatar");
+        File dir = new File(rootPath + File.separator + folder);
         if (!dir.exists())
             dir.mkdirs();
 
         // Create the file on server
-        File serverFile = new File(dir.getAbsolutePath() + File.separator +
-                +System.currentTimeMillis() + "-" + fileName);
+        File serverFile = new File(dir.getAbsolutePath() + File.separator + fileName);
 
         BufferedOutputStream stream = new BufferedOutputStream(
                 new FileOutputStream(serverFile));

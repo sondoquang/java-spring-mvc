@@ -27,8 +27,9 @@
                             <div class="container-fluid px-4">
                                 <h1 class="mt-4">Manager Users</h1>
                                 <ol class="breadcrumb mb-4">
-                                    <li class="breadcrumb-item active"><a href="">Dashboard</a></li>
-                                    <li class="breadcrumb-item">User</li>
+                                    <li class="breadcrumb-item active"><a href="/admin">dashboard</a></li>
+                                    <li class="breadcrumb-item active"><a href="/admin/users">users</a></li>
+                                    <li class="breadcrumb-item">detail</li>
                                 </ol>
                             </div>
                             <div class="p-4 ">

@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.fpt.laptopshop.domain.User;
+import com.fpt.laptopshop.domain.dto.UserDto;
 import com.fpt.laptopshop.repository.UserRepository;
+import com.fpt.laptopshop.service.iservice.IUserService;
 
 @Service
 public class UserService implements IUserService {
@@ -27,15 +29,12 @@ public class UserService implements IUserService {
     @Override
     public List<User> findAll() {
         List<User> users = userRepository.findAll();
-        if (users.isEmpty()) {
-            throw new RuntimeException("Find user don't successful!");
-        }
         return users;
     }
 
     @Override
     public User findById(long userId) {
-        User user = userRepository.findById(userId);
+        User user = userRepository.findById(userId).get();
         if (user == null) {
             throw new RuntimeException("User not found!");
         }
@@ -60,5 +59,14 @@ public class UserService implements IUserService {
         } else {
             throw new RuntimeException("User not found!");
         }
+    }
+
+    @Override
+    public User UserDtoToUser(UserDto userDto) {
+        User user = new User();
+        user.setFullName(userDto.getFirstName() + " " + userDto.getLastName());
+        user.setEmail(userDto.getEmail());
+        user.setPassword(userDto.getPassword());
+        return user;
     }
 }

@@ -45,6 +45,8 @@
                                                     <th scope="col">Id</th>
                                                     <th scope="col">Email</th>
                                                     <th scope="col">Fullname</th>
+                                                    <th scope="col">Role</th>
+                                                    <th scope="col">Phone</th>
                                                     <th scope="col">Action</th>
                                                 </tr>
                                             </thead>
@@ -54,6 +56,8 @@
                                                         <th scope="row">${user.id}</th>
                                                         <td>${user.email}</td>
                                                         <td>${user.fullName}</td>
+                                                        <td>${user.role.name}</td>
+                                                        <td>${user.phone}</td>
                                                         <td>
                                                             <a class="btn btn-success"
                                                                 href="/admin/users/${user.id}/view">View</a>
@@ -75,7 +79,7 @@
                 </div>
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
                     crossorigin="anonymous"></script>
-                <script src="js/scripts.js"></script>
+                <script src="/js/scripts.js"></script>
             </body>
 
             </html>
