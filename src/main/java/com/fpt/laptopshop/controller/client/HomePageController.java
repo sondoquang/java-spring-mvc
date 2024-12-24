@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.fpt.laptopshop.domain.Product;
 import com.fpt.laptopshop.service.iservice.IProductService;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class HomePageController {
@@ -22,6 +23,11 @@ public class HomePageController {
         List<Product> products = productService.findAll();
         model.addAttribute("products", products);
         return "client/homepage/Show";
+    }
+
+    @GetMapping("/access-deny")
+    public String getDenyPage() {
+        return "client/auth/Deny";
     }
 
 }

@@ -28,6 +28,11 @@
                                             </div>
                                             <div class="card-body">
                                                 <form method="post" action="/account/login">
+                                                    <c:if test="${param.logout != null}">
+                                                        <div class="alert alert-success" role="alert">
+                                                            Logout success.
+                                                        </div>
+                                                    </c:if>
                                                     <div class="form-floating mb-3">
                                                         <input class="form-control" type="email"
                                                             placeholder="name@gmail.com" name="username" />

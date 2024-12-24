@@ -55,10 +55,12 @@ public class SecurityConfiguration {
                         .dispatcherTypeMatchers(DispatcherType.FORWARD,
                                 DispatcherType.INCLUDE)
                         .permitAll()
+
                         .requestMatchers("/home", "/products/**", "/account/login", "/client/**", "/css/**",
                                 "/js/**",
                                 "/images/**")
                         .permitAll()
+
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
 
@@ -66,7 +68,8 @@ public class SecurityConfiguration {
                         .loginPage("/account/login")
                         .failureUrl("/account/login?error")
                         .successHandler(customSuccessHandler())
-                        .permitAll());
+                        .permitAll())
+                .exceptionHandling(exception -> exception.accessDeniedPage("/access-deny"));
 
         return http.build();
     }
