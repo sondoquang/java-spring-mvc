@@ -21,7 +21,7 @@ public class ItemController {
     public String getDetailProductPage(Model model, @PathVariable long productId) {
         Product product = productService.findById(productId);
         model.addAttribute("product", product);
-        return "/client/product/Detail";
+        return "client/product/Detail";
     }
 
 }

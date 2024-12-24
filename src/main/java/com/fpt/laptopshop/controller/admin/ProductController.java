@@ -32,7 +32,7 @@ public class ProductController {
     @GetMapping("/admin/products")
     public String getDashboard(Model model) {
         model.addAttribute("products", productService.findAll());
-        return "/admin/product/Show";
+        return "admin/product/Show";
     }
 
     @GetMapping(value = "/admin/products/{productId}/view")
@@ -41,13 +41,13 @@ public class ProductController {
         String urlImage = "/images/product/" + product.getImage();
         model.addAttribute("urlImage", urlImage);
         model.addAttribute("product", product);
-        return "/admin/product/Detail";
+        return "admin/product/Detail";
     }
 
     @GetMapping("/admin/products/create")
     public String forwardProductCreate(Model model, @ModelAttribute("product") Product product) {
         model.addAttribute("product", new Product());
-        return "/admin/product/Create";
+        return "admin/product/Create";
     }
 
     @PostMapping("/admin/products/create")
@@ -56,7 +56,7 @@ public class ProductController {
             BindingResult result,
             @RequestParam(name = "photoImage") MultipartFile file) throws IOException {
         if (result.hasErrors()) {
-            return "/admin/product/Create";
+            return "admin/product/Create";
         }
         String fileName = uploadFileService.uploadFile(file, "product");
         product.setImage(fileName);
@@ -68,7 +68,7 @@ public class ProductController {
     public String handleForwardUpdateProduct(Model model, @PathVariable long productId) {
         Product product = productService.findById(productId);
         model.addAttribute("product", product);
-        return "/admin/product/Update";
+        return "admin/product/Update";
     }
 
     @PostMapping(value = "/admin/products/update")
@@ -80,7 +80,7 @@ public class ProductController {
             Product pr = productService.findById(product.getId());
             product.setImage(pr.getImage());
             model.addAttribute("product", product);
-            return "/admin/product/Update";
+            return "admin/product/Update";
         }
         if (!file.isEmpty()) {
             String fileName = uploadFileService.uploadFile(file, "product");
@@ -97,14 +97,14 @@ public class ProductController {
     @GetMapping(value = "/admin/products/{productId}/delete")
     public String forwardDeleteUser(Model model, @PathVariable long productId) {
         model.addAttribute("productId", productId);
-        return "/admin/product/Delete";
+        return "admin/product/Delete";
     }
 
     @PostMapping(value = "/admin/products/{productId}/delete")
     public String deleteUser(Model model, @PathVariable long productId) {
         productService.deleteProduct(productId);
         model.addAttribute("message", "Delete success");
-        return "redirect:/admin/products";
+        return "redirect:admin/products";
     }
 
 }

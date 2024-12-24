@@ -1,5 +1,8 @@
 package com.fpt.laptopshop.domain.dto;
 
+import com.fpt.laptopshop.service.validation.RegisterChecked;
+
+@RegisterChecked
 public class UserDto {
     private String firstName;
     private String lastName;

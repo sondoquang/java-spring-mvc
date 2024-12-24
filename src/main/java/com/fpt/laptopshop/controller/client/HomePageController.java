@@ -21,7 +21,7 @@ public class HomePageController {
     public String getHomePage(Model model) {
         List<Product> products = productService.findAll();
         model.addAttribute("products", products);
-        return "/client/homepage/Show";
+        return "client/homepage/Show";
     }
 
 }

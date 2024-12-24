@@ -8,7 +8,7 @@ public class OrderController {
 
     @GetMapping("/admin/orders")
     public String getDashboard() {
-        return "/admin/order/Show";
+        return "admin/order/Show";
     }
 
 }

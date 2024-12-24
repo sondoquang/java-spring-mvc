@@ -42,20 +42,20 @@ public class UserController {
     public String getUsers(Model model) {
         List<User> users = userService.findAll();
         model.addAttribute("users", users);
-        return "/admin/user/Show";
+        return "admin/user/Show";
     }
 
     @GetMapping(value = "/admin/users/{userId}/view")
     public String getUserDetailById(Model model, @PathVariable long userId) {
         User user = userService.findById(userId);
         model.addAttribute("user", user);
-        return "/admin/user/Detail";
+        return "admin/user/Detail";
     }
 
     @GetMapping(value = "/admin/users/create")
     public String handleForwardCreate(Model model, @ModelAttribute("newUser") User user) {
         model.addAttribute("newUser", new User());
-        return "/admin/user/Create";
+        return "admin/user/Create";
     }
 
     @PostMapping(value = "/admin/users/create")
@@ -68,7 +68,7 @@ public class UserController {
             System.out.println(error.getField() + " - " + error.getDefaultMessage());
         }
         if (bindingResult.hasErrors()) {
-            return "/admin/user/Create";
+            return "admin/user/Create";
         }
 
         String fileName = uploadFileService.uploadFile(file, "/resources/images");
@@ -79,7 +79,7 @@ public class UserController {
         User saveUser = userService.addUser(user);
         if (saveUser == null) {
             model.addAttribute("message", "Create user failed !");
-            return "/admin/user/Show";
+            return "admin/user/Show";
         }
         return "redirect:/admin/users";
     }
@@ -90,7 +90,7 @@ public class UserController {
         String url = "/images/avatar/" + user.getAvatar();
         model.addAttribute("url", url);
         model.addAttribute("newUser", user);
-        return "/admin/user/Update";
+        return "admin/user/Update";
     }
 
     @PostMapping(value = "/admin/users/update")
@@ -100,13 +100,13 @@ public class UserController {
             model.addAttribute("message", "Update user failed !");
         } else
             model.addAttribute("message", "Update user success");
-        return "redirect:/admin/users";
+        return "redirect:admin/users";
     }
 
     @GetMapping(value = "/admin/users/{userId}/delete")
     public String forwardDeleteUser(Model model, @PathVariable long userId) {
         model.addAttribute("userId", userId);
-        return "/admin/user/Delete";
+        return "admin/user/Delete";
     }
 
     @PostMapping(value = "/admin/users/{userId}/delete")

@@ -30,6 +30,13 @@
                                                 <form:form method="post" action="/account/register"
                                                     modelAttribute="userDto">
                                                     <div class="row mb-3">
+                                                        <c:set var="errorConfirmPassword">
+                                                            <form:errors path="confirmPassword"
+                                                                cssClass="invalid-feedback" />
+                                                        </c:set>
+                                                        <c:set var="errorEmail">
+                                                            <form:errors path="email" cssClass="invalid-feedback" />
+                                                        </c:set>
                                                         <div class="col-md-6">
                                                             <div class="form-floating mb-3 mb-md-0">
                                                                 <form:input path="firstName" class="form-control"
@@ -48,8 +55,10 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-floating mb-3">
-                                                        <form:input path="email" class="form-control" type="email"
-                                                            placeholder="name@gmail.com" />
+                                                        <form:input path="email"
+                                                            class="form-control ${not empty errorEmail ? 'is-invalid' : ''}"
+                                                            type="email" placeholder="name@gmail.com" />
+                                                        ${errorEmail}
                                                         <label>Email address</label>
                                                     </div>
                                                     <div class="row mb-3">
@@ -63,13 +72,18 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-floating mb-3 mb-md-0">
-                                                                <form:input path="confirmPassword" class="form-control"
+                                                                <form:input path="confirmPassword"
+                                                                    class="form-control ${not empty errorConfirmPassword ? 'is-invalid' : ''}"
                                                                     id="inputPasswordConfirm" type="password"
                                                                     placeholder="Confirm password" />
+                                                                ${errorConfirmPassword}
                                                                 <label for="inputPasswordConfirm">Confirm
                                                                     Password</label>
                                                             </div>
                                                         </div>
+                                                    </div>
+                                                    <div class="mt-4 mb-0">
+                                                        <p class="text-danger">${message}</p>
                                                     </div>
                                                     <div class="mt-4 mb-0">
                                                         <div class="d-grid">
@@ -81,7 +95,8 @@
                                                 </form:form>
                                             </div>
                                             <div class="card-footer text-center py-3">
-                                                <div class="small"><a href="/login">Have an account? Go to login</a>
+                                                <div class="small"><a href="/account/login">Have an account? Go to
+                                                        login</a>
                                                 </div>
                                             </div>
                                         </div>
