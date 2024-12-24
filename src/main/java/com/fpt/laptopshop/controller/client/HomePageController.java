@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.fpt.laptopshop.domain.Product;
 import com.fpt.laptopshop.service.iservice.IProductService;
-import org.springframework.web.bind.annotation.RequestParam;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class HomePageController {
@@ -20,6 +22,7 @@ public class HomePageController {
 
     @GetMapping("/home")
     public String getHomePage(Model model) {
+
         List<Product> products = productService.findAll();
         model.addAttribute("products", products);
         return "client/homepage/Show";

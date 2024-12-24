@@ -63,15 +63,11 @@ public class UserController {
             @ModelAttribute("newUser") @Valid User user,
             BindingResult bindingResult,
             @RequestParam(name = "fileAvatar", required = false) MultipartFile file) throws IOException {
-        List<FieldError> errors = bindingResult.getFieldErrors();
-        for (FieldError error : errors) {
-            System.out.println(error.getField() + " - " + error.getDefaultMessage());
-        }
         if (bindingResult.hasErrors()) {
             return "admin/user/Create";
         }
 
-        String fileName = uploadFileService.uploadFile(file, "/resources/images");
+        String fileName = uploadFileService.uploadFile(file, "avatar");
         String hashPass = passwordEncoder.encode(user.getPassword());
         user.setAvatar(fileName);
         user.setPassword(hashPass);
@@ -103,13 +99,14 @@ public class UserController {
         return "redirect:admin/users";
     }
 
-    @GetMapping(value = "/admin/users/{userId}/delete")
+    @GetMapping("/admin/users/{userId}/delete")
     public String forwardDeleteUser(Model model, @PathVariable long userId) {
-        model.addAttribute("userId", userId);
+        model.addAttribute("id", userId);
+        model.addAttribute("newUser", new User());
         return "admin/user/Delete";
     }
 
-    @PostMapping(value = "/admin/users/{userId}/delete")
+    @PostMapping("/admin/users/{userId}/delete")
     public String deleteUser(Model model, @PathVariable long userId) {
         userService.deleteById(userId);
         model.addAttribute("message", "Delete success");

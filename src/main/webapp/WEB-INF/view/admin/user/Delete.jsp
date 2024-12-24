@@ -38,6 +38,7 @@
                                 </div>
                                 <p>${message}</p>
                                 <form action="/admin/users/${userId}/delete" method="post">
+                                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                                     <button type="submit" class="btn btn-danger">Delete</button>
                                 </form>
                             </div>

@@ -38,6 +38,11 @@
                                         <h2>Update a User</h2>
                                         <form:form action="/admin/users/update" method="post" modelAttribute="newUser">
                                             <div class="row">
+                                                <div class="col-md-6 mb-3" hidden>
+                                                    <label class="form-label">Id:</label>
+                                                    <form:input type="text" class="form-control" path="id"
+                                                        placeholder="Enter email" />
+                                                </div>
                                                 <div class="col-md-6 mb-3">
                                                     <label class="form-label">Email:</label>
                                                     <form:input type="email" class="form-control" path="email"
