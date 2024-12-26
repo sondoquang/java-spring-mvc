@@ -1,6 +1,7 @@
 package com.fpt.laptopshop.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -57,5 +58,17 @@ public class ProductService implements IProductService {
             return product;
         }
         throw new RuntimeException("Add product don't successfully !");
+    }
+
+    @Override
+    public boolean checkQuantityProductById(long id, int quantity) {
+        Optional<Product> oProduct = productRepository.findById(id);
+        if (oProduct.isPresent()) {
+            int inventory = (int) oProduct.get().getQuantity();
+            if (quantity > inventory) {
+                return false;
+            }
+        }
+        return true;
     }
 }

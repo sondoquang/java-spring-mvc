@@ -100,10 +100,16 @@
                                                                         pattern="##,###,###,##0.00"></fmt:formatNumber>
                                                                     <p class="text-dark fs-5 fw-bold mb-0">
                                                                         ${price} đ</p>
-                                                                    <a href="#"
-                                                                        class="btn border border-secondary rounded-pill px-3 text-primary"><i
-                                                                            class="fa fa-shopping-bag me-2 text-primary"></i>
-                                                                        Add to cart</a>
+                                                                    <form action="/product/${product.id}/add"
+                                                                        method="post">
+                                                                        <input type="hidden"
+                                                                            name="${_csrf.parameterName}"
+                                                                            value="${_csrf.token}" />
+                                                                        <button type="submit"
+                                                                            class="btn border border-secondary rounded-pill px-3 text-primary"><i
+                                                                                class="fa fa-shopping-bag me-2 text-primary"></i>
+                                                                            Add to cart</button>
+                                                                    </form>
                                                                 </div>
                                                             </div>
                                                         </div>

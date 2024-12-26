@@ -14,4 +14,6 @@ public interface IProductService {
     Product addProduct(Product product);
 
     void deleteProduct(long id);
+
+    boolean checkQuantityProductById(long id, int quantity);
 }
