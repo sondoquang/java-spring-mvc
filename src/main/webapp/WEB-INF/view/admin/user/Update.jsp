@@ -51,7 +51,7 @@
                                                 <div class="col-md-6 mb-3">
                                                     <label class="form-label">Password:</label>
                                                     <form:input type="password" class="form-control" path="password"
-                                                        placeholder="Enter Password" />
+                                                        placeholder="Enter Password" readonly="true" />
                                                 </div>
                                                 <div class="col-md-6 mb-3">
                                                     <label class="form-label">Phone number:</label>
@@ -71,8 +71,8 @@
                                                 <div class="col-md-6 mb-3">
                                                     <label class="form-label">Role :</label>
                                                     <form:select class="form-select" path="role.name">
-                                                        <form:option value="admin">Admin</form:option>
-                                                        <form:option value="user">User</form:option>
+                                                        <form:option value="ADMIN">Admin</form:option>
+                                                        <form:option value="USER">User</form:option>
                                                     </form:select>
                                                 </div>
                                                 <div class="col-md-6 mb-3">

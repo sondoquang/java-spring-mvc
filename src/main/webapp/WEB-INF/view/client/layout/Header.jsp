@@ -29,7 +29,8 @@
                     <div class="collapse navbar-collapse bg-white justify-content-between mx-5" id="navbarCollapse">
                         <div class="navbar-nav">
                             <a href="/home" class="nav-item nav-link active ">Trang Chủ</a>
-                            <a href="/" class="nav-item nav-link">Sản Phẩm</a>
+                            <a href="/payment" class="nav-item nav-link">Payment</a>
+
                             <!-- <a href="shop-detail.html" class="nav-item nav-link">Shop Detail</a> -->
                             <!-- <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>

@@ -90,12 +90,15 @@ public class UserController {
 
     @PostMapping(value = "/admin/users/update")
     public String handleUpdateUser(Model model, @ModelAttribute("newUser") User user) {
+        if (user.getAvatar() == null) {
+            user.setAvatar(userService.findByEmail(user.getEmail()).getAvatar());
+        }
         User updateUser = userService.updateById(user);
         if (updateUser == null) {
             model.addAttribute("message", "Update user failed !");
         } else
             model.addAttribute("message", "Update user success");
-        return "redirect:admin/users";
+        return "redirect:/admin/users";
     }
 
     @GetMapping("/admin/users/{userId}/delete")

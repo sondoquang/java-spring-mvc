@@ -71,4 +71,9 @@ public class ProductService implements IProductService {
         }
         return true;
     }
+
+    @Override
+    public long getCountProduct() {
+        return productRepository.count();
+    }
 }

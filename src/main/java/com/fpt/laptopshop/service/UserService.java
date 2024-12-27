@@ -4,17 +4,21 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.fpt.laptopshop.domain.Role;
 import com.fpt.laptopshop.domain.User;
 import com.fpt.laptopshop.domain.dto.UserDto;
+import com.fpt.laptopshop.repository.RoleRepository;
 import com.fpt.laptopshop.repository.UserRepository;
 import com.fpt.laptopshop.service.iservice.IUserService;
 
 @Service
 public class UserService implements IUserService {
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
 
     @Override
@@ -55,6 +59,8 @@ public class UserService implements IUserService {
     public User updateById(User user) {
         User updateUser = findById(user.getId());
         if (updateUser != null) {
+            Role role = roleRepository.findByName(user.getRole().getName());
+            user.setRole(role);
             return userRepository.save(user);
         } else {
             throw new RuntimeException("User not found!");
@@ -73,5 +79,10 @@ public class UserService implements IUserService {
     @Override
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public Integer getCountUser() {
+        return Integer.parseInt(userRepository.count() + "");
     }
 }

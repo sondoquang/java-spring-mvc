@@ -20,4 +20,6 @@ public interface IUserService {
     User findByEmail(String email);
 
     User UserDtoToUser(UserDto userDto);
+
+    Integer getCountUser();
 }

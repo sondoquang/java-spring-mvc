@@ -1,7 +1,9 @@
 package com.fpt.laptopshop.controller.client;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,15 +14,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.fpt.laptopshop.domain.Cart;
 import com.fpt.laptopshop.domain.CartDetail;
 import com.fpt.laptopshop.domain.Product;
+import com.fpt.laptopshop.domain.User;
 import com.fpt.laptopshop.service.iservice.ICartDetailService;
 import com.fpt.laptopshop.service.iservice.ICartService;
+import com.fpt.laptopshop.service.iservice.IOrderService;
 import com.fpt.laptopshop.service.iservice.IProductService;
+import com.fpt.laptopshop.service.iservice.IUserService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class ItemController {
@@ -28,12 +33,16 @@ public class ItemController {
     private final IProductService productService;
     private final ICartService cartService;
     private final ICartDetailService cartDetailService;
+    private final IUserService userService;
+    private final IOrderService orderService;
 
     public ItemController(IProductService productService, ICartService cartService,
-            ICartDetailService cartDetailService) {
+            ICartDetailService cartDetailService, IUserService userService, IOrderService orderService) {
         this.productService = productService;
         this.cartService = cartService;
         this.cartDetailService = cartDetailService;
+        this.userService = userService;
+        this.orderService = orderService;
     }
 
     @GetMapping("/products/{productId}/detail")
@@ -109,6 +118,25 @@ public class ItemController {
         model.addAttribute("cart", cartShow);
         return "client/cart/Payment";
 
+    }
+
+    @PostMapping("/place-order")
+    public String postPlaceOrder(HttpServletRequest request,
+            @RequestParam("receiverName") String name,
+            @RequestParam("receiverAddress") String address,
+            @RequestParam("receiverPhone") String phone) {
+
+        HttpSession session = request.getSession(false);
+        String email = session.getAttribute("email").toString();
+        User user = userService.findByEmail(email);
+        Map<String, String> values = new HashMap<>();
+        values.put("receiverName", name);
+        values.put("receiverAddress", name);
+        values.put("receiverPhone", name);
+
+        // add order for user //
+        orderService.createPlaceOrder(user, values, session);
+        return "client/cart/PaymentSuccess";
     }
 
 }

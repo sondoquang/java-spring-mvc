@@ -16,4 +16,6 @@ public interface IProductService {
     void deleteProduct(long id);
 
     boolean checkQuantityProductById(long id, int quantity);
+
+    long getCountProduct();
 }

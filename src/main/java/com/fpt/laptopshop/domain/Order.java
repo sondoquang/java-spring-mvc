@@ -27,19 +27,33 @@ public class Order {
     @OneToMany(mappedBy = "order")
     private List<OrderDetail> OrderDetails;
 
+    private String receiverName;
+
+    private String receiverAddress;
+
+    private String receiverPhone;
+
+    private Boolean status;
+
     public Order() {
     }
 
-    public Order(Double totalPrice, User user, List<OrderDetail> orderDetails) {
+    public Order(Double totalPrice, User user, List<OrderDetail> orderDetails, String receiverName,
+            String receiverAddress, String receiverPhone, Boolean status) {
         this.totalPrice = totalPrice;
         this.user = user;
         OrderDetails = orderDetails;
+        this.receiverName = receiverName;
+        this.receiverAddress = receiverAddress;
+        this.receiverPhone = receiverPhone;
+        this.status = status;
     }
 
     @Override
     public String toString() {
         return "Order [id=" + id + ", totalPrice=" + totalPrice + ", user=" + user + ", OrderDetails=" + OrderDetails
-                + "]";
+                + ", receiverName=" + receiverName + ", receiverAddress=" + receiverAddress + ", receiverPhone="
+                + receiverPhone + ", status=" + status + "]";
     }
 
     public Long getId() {
@@ -72,6 +86,38 @@ public class Order {
 
     public void setOrderDetails(List<OrderDetail> orderDetails) {
         OrderDetails = orderDetails;
+    }
+
+    public String getReceiverName() {
+        return receiverName;
+    }
+
+    public void setReceiverName(String receiverName) {
+        this.receiverName = receiverName;
+    }
+
+    public String getReceiverAddress() {
+        return receiverAddress;
+    }
+
+    public void setReceiverAddress(String receiverAddress) {
+        this.receiverAddress = receiverAddress;
+    }
+
+    public String getReceiverPhone() {
+        return receiverPhone;
+    }
+
+    public void setReceiverPhone(String receiverPhone) {
+        this.receiverPhone = receiverPhone;
+    }
+
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
     }
 
 }
