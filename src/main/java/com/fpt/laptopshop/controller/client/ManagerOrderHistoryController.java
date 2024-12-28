@@ -1,6 +1,5 @@
 package com.fpt.laptopshop.controller.client;
 
-import java.net.http.HttpRequest;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;

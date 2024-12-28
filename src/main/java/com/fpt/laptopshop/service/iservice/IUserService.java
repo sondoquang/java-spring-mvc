@@ -1,7 +1,5 @@
 package com.fpt.laptopshop.service.iservice;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

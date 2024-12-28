@@ -1,6 +1,5 @@
 package com.fpt.laptopshop.controller.admin;
 
-import com.fpt.laptopshop.domain.Product;
 import com.fpt.laptopshop.domain.User;
 import com.fpt.laptopshop.service.UploadFileService;
 import com.fpt.laptopshop.service.iservice.IRoleService;
