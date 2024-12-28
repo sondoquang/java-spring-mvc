@@ -3,9 +3,13 @@ package com.fpt.laptopshop.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.fpt.laptopshop.domain.Product;
+import com.fpt.laptopshop.domain.Product_;
 import com.fpt.laptopshop.repository.ProductRepository;
 import com.fpt.laptopshop.service.iservice.IProductService;
 
@@ -18,8 +22,8 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public List<Product> findAll() {
-        return productRepository.findAll();
+    public Page<Product> findAll(String name, Pageable page) {
+        return productRepository.findAll(this.nameLike(name), page);
     }
 
     @Override
@@ -75,5 +79,11 @@ public class ProductService implements IProductService {
     @Override
     public long getCountProduct() {
         return productRepository.count();
+    }
+
+    private Specification<Product> nameLike(String name) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder
+                .like(root.get(Product_.factory), "%" + name + "%");
+
     }
 }

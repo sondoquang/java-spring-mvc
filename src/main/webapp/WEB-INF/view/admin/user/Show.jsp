@@ -78,6 +78,29 @@
                                             </tbody>
                                         </table>
                                     </form>
+                                    <nav class="mt-5">
+                                        <ul class="pagination justify-content-center">
+                                            <li class="page-item p-0">
+                                                <a class="page-link"
+                                                    href="/admin/users?page=${param.pageNo>11?pageNo-1:1}"
+                                                    aria-label="Previous">
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                </a>
+                                            </li>
+                                            <c:forEach var="page" begin="1" end="${size}" step="1">
+                                                <li class="page-item p-0"><a
+                                                        class="page-link ${pageNo == page?'active':''}"
+                                                        href="/admin/users?page=${page}">${page}</a></li>
+                                            </c:forEach>
+                                            <li class="page-item p-0">
+                                                <a class="page-link"
+                                                    href="/admin/users?page=${param.pageNo<size?pageNo+1:size}"
+                                                    aria-label="Next">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </nav>
                                 </div>
                             </div>
                         </main>

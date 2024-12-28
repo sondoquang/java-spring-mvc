@@ -33,13 +33,14 @@
                             <div class="container-fluid px-4">
                                 <h1 class="mt-4">Dashboard</h1>
                                 <ol class="breadcrumb mb-4">
+                                    <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
                                     <li class="breadcrumb-item active">Product</li>
                                 </ol>
                             </div>
                             <div class="p-3  mt-2">
                                 <div class="table mt-3">
                                     <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <h3>Table User</h3>
+                                        <h3>Table Product</h3>
                                         <a href="/admin/products/create" class="btn btn-primary">Create a Product</a>
                                     </div>
                                     <hr>
@@ -78,6 +79,29 @@
                                             </tbody>
                                         </table>
                                     </form>
+                                    <nav class="mt-5">
+                                        <ul class="pagination justify-content-center">
+                                            <li class="page-item p-0">
+                                                <a class="page-link"
+                                                    href="/admin/products?page=${param.pageNo>11?pageNo-1:1}"
+                                                    aria-label="Previous">
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                </a>
+                                            </li>
+                                            <c:forEach var="page" begin="1" end="${size}" step="1">
+                                                <li class="page-item p-0"><a
+                                                        class="page-link ${pageNo == page?'active':''}"
+                                                        href="/admin/products?page=${page}">${page}</a></li>
+                                            </c:forEach>
+                                            <li class="page-item p-0">
+                                                <a class="page-link"
+                                                    href="/admin/products?page=${param.pageNo<size?pageNo+1:size}"
+                                                    aria-label="Next">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </nav>
                                 </div>
                             </div>
                         </main>

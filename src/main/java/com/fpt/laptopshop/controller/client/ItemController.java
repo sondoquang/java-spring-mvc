@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +27,7 @@ import com.fpt.laptopshop.service.iservice.IUserService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.websocket.server.PathParam;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -45,6 +50,29 @@ public class ItemController {
         this.orderService = orderService;
     }
 
+    @GetMapping("/products")
+    public String getProducts(Model model,
+            @RequestParam("page") Optional<String> pageNo,
+            @RequestParam("name") Optional<String> nameOptional) {
+        int limit = 6;
+        int page = 1;
+        try {
+            page = Integer.parseInt(pageNo.get());
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+
+        String name = nameOptional.get();
+
+        Pageable pageable = PageRequest.of(page - 1, limit);
+        Page<Product> list = productService.findAll(name, pageable);
+        List<Product> products = list.getContent();
+        model.addAttribute("products", products);
+        model.addAttribute("size", list.getTotalPages());
+        model.addAttribute("pageNo", page);
+        return "client/product/Products";
+    }
+
     @GetMapping("/products/{productId}/detail")
     public String getDetailProductPage(Model model, @PathVariable long productId) {
         Product product = productService.findById(productId);
@@ -53,12 +81,19 @@ public class ItemController {
     }
 
     @PostMapping("/product/{productId}/add")
-    public String postAddProduct(@PathVariable long productId, HttpServletRequest request) {
+    public String postAddProduct(@PathVariable long productId, HttpServletRequest request,
+            @PathParam("quantity") String quantity) {
         HttpSession session = request.getSession(false);
         String email = session.getAttribute("email").toString();
-        Cart cart = cartService.addProductToCart(email, productId);
+        if (quantity == null) {
+            Cart cart = cartService.addProductToCart(email, productId, 1);
+            session.setAttribute("sumCart", cart.getSum());
+            return "redirect:/home";
+        }
+        Cart cart = cartService.addProductToCart(email, productId, Integer.parseInt(quantity));
         session.setAttribute("sumCart", cart.getSum());
-        return "redirect:/home";
+        return "redirect:/products/" + productId + "/detail";
+
     }
 
     @GetMapping("/carts")

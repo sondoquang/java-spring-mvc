@@ -1,7 +1,11 @@
 package com.fpt.laptopshop.controller.admin;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +16,6 @@ import com.fpt.laptopshop.domain.Order;
 import com.fpt.laptopshop.domain.OrderDetail;
 import com.fpt.laptopshop.service.iservice.IOrderService;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -25,9 +28,20 @@ public class OrderController {
     }
 
     @GetMapping("/admin/orders")
-    public String getDashboard(Model model) {
-        List<Order> orders = orderService.findAll();
+    public String getDashboard(Model model, @RequestParam("page") Optional<String> pageNo) {
+        int limit = 6;
+        int page = 1;
+        try {
+            page = Integer.parseInt(pageNo.get());
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+        Pageable pageable = PageRequest.of(page - 1, limit);
+        Page<Order> list = orderService.findAll(pageable);
+        List<Order> orders = list.getContent();
         model.addAttribute("orders", orders);
+        model.addAttribute("size", list.getTotalPages());
+        model.addAttribute("pageNo", page);
         return "admin/order/Show";
     }
 

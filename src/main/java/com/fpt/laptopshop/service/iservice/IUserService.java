@@ -2,6 +2,9 @@ package com.fpt.laptopshop.service.iservice;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.fpt.laptopshop.domain.User;
 import com.fpt.laptopshop.domain.dto.UserDto;
 
@@ -9,7 +12,7 @@ public interface IUserService {
 
     User addUser(User user);
 
-    List<User> findAll();
+    Page<User> findAll(Pageable pageable);
 
     User findById(long userId);
 

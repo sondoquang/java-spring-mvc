@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.fpt.laptopshop.domain.Cart;
@@ -89,8 +91,8 @@ public class OrderService implements IOrderService {
     }
 
     @Override
-    public List<Order> findAll() {
-        return orderRepository.findAll();
+    public Page<Order> findAll(Pageable pageable) {
+        return orderRepository.findAll(pageable);
     }
 
     @Override
@@ -116,6 +118,11 @@ public class OrderService implements IOrderService {
     @Override
     public long getCountOrder() {
         return orderRepository.count();
+    }
+
+    @Override
+    public List<Order> findByUser(User user) {
+        return orderRepository.findByUser(user);
     }
 
 }

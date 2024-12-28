@@ -1,11 +1,12 @@
 package com.fpt.laptopshop.service.iservice;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import com.fpt.laptopshop.domain.Product;
 
 public interface IProductService {
-    List<Product> findAll();
+
+    Page<Product> findAll(String name, Pageable page);
 
     Product findById(long id);
 

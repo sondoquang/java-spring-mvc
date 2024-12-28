@@ -18,7 +18,7 @@
                 </div>
             </div>
             <div class="container px-0">
-                <nav class="navbar navbar-light bg-white navbar-expand-xl">
+                <nav class="navbar navbar-light bg-white navbar-expand-xl" style="height: auto;">
                     <a href="/home" class="navbar-brand">
                         <h1 class="text-primary display-6">Laptopshop</h1>
                     </a>
@@ -29,7 +29,7 @@
                     <div class="collapse navbar-collapse bg-white justify-content-between mx-5" id="navbarCollapse">
                         <div class="navbar-nav">
                             <a href="/home" class="nav-item nav-link active ">Trang Chủ</a>
-                            <a href="/payment" class="nav-item nav-link">Payment</a>
+                            <a href="/products" class="nav-item nav-link">Sản Phẩm</a>
 
                             <!-- <a href="shop-detail.html" class="nav-item nav-link">Shop Detail</a> -->
                             <!-- <div class="nav-item dropdown">
@@ -70,7 +70,7 @@
 
                                         <li><a class="dropdown-item" href="#">Quản lý tài khoản</a></li>
 
-                                        <li><a class="dropdown-item" href="#">Lịch sử mua hàng</a></li>
+                                        <li><a class="dropdown-item" href="/order-history">Lịch sử mua hàng</a></li>
                                         <li>
                                             <hr class="dropdown-divider">
                                         </li>

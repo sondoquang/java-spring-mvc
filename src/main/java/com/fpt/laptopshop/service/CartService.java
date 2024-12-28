@@ -32,7 +32,7 @@ public class CartService implements ICartService {
     }
 
     @Override
-    public Cart addProductToCart(String email, long productId) {
+    public Cart addProductToCart(String email, long productId, int quantity) {
         User user = userRepository.findByEmail(email);
         Cart cart = null;
         if (user != null) {
@@ -56,7 +56,7 @@ public class CartService implements ICartService {
                     cartDetail.setCart(cart);
                     cartDetail.setProduct(product);
                     cartDetail.setPrice(product.getPrice());
-                    cartDetail.setQuantity(1);
+                    cartDetail.setQuantity(quantity);
                 } else {
                     cartDetail.setQuantity(cartDetail.getQuantity() + 1);
                     cartDetail.setPrice(cartDetail.getPrice() * cartDetail.getQuantity());

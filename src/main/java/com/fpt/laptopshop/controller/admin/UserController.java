@@ -1,5 +1,6 @@
 package com.fpt.laptopshop.controller.admin;
 
+import com.fpt.laptopshop.domain.Product;
 import com.fpt.laptopshop.domain.User;
 import com.fpt.laptopshop.service.UploadFileService;
 import com.fpt.laptopshop.service.iservice.IRoleService;
@@ -9,7 +10,11 @@ import jakarta.validation.Valid;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,9 +43,20 @@ public class UserController {
     }
 
     @GetMapping("/admin/users")
-    public String getUsers(Model model) {
-        List<User> users = userService.findAll();
+    public String getUsers(Model model, @RequestParam("page") Optional<String> pageNo) {
+        int limit = 6;
+        int page = 1;
+        try {
+            page = Integer.parseInt(pageNo.get());
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+        Pageable pageable = PageRequest.of(page - 1, limit);
+        Page<User> list = userService.findAll(pageable);
+        List<User> users = list.getContent();
         model.addAttribute("users", users);
+        model.addAttribute("size", list.getTotalPages());
+        model.addAttribute("pageNo", page);
         return "admin/user/Show";
     }
 
