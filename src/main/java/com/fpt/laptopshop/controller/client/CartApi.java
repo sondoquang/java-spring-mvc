@@ -4,7 +4,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fpt.laptopshop.domain.Cart;
 import com.fpt.laptopshop.service.CartService;
-import com.fpt.laptopshop.service.ProductService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
