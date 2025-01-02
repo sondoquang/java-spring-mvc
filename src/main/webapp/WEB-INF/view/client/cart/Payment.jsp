@@ -143,10 +143,30 @@
                                             <input type="text" name="receiverPhone" class="form-control" id="phone"
                                                 placeholder="0 xxx xxx xx">
                                         </div>
+                                        <div class="col-12 form-group mb-3">
+                                            <label>Hình thức thanh toán</label>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="paymentMethod"
+                                                    value="COD" id="COD" checked>
+                                                <label class="form-check-label" for="COD">
+                                                    Thanh toán khi nhận hàng
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="paymentMethod"
+                                                    value="BANKING" id="BANKING">
+                                                <label class="form-check-label" for="BANKING">
+                                                    Thanh toán bằng ví VNPAY
+                                                </label>
+                                            </div>
+                                        </div>
                                         <div class="mt-3">
                                             <a href="/carts"><i class="fa-solid fa-arrow-left"></i> Quay lại giỏ
                                                 hàng</a>
                                         </div>
+                                        <input type="text" name="totalPrice" value="${totalPrice}"
+                                            style="display: none;">
+
                                         </form>
                                     </div>
                                     <div class="col-sm-6 ">

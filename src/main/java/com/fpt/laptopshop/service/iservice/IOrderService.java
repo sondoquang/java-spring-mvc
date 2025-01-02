@@ -24,4 +24,6 @@ public interface IOrderService {
 
     long getCountOrder();
 
+    Order updatePaymentRef(String paymentRef, String status);
+
 }

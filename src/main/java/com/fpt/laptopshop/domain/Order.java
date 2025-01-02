@@ -35,11 +35,18 @@ public class Order {
 
     private Boolean status;
 
+    private String paymentRef;
+
+    private String paymentStatus;
+
+    private String paymentMethod;
+
     public Order() {
     }
 
     public Order(Double totalPrice, User user, List<OrderDetail> orderDetails, String receiverName,
-            String receiverAddress, String receiverPhone, Boolean status) {
+            String receiverAddress, String receiverPhone, Boolean status, String paymentRef, String paymentStatus,
+            String paymentMethod) {
         this.totalPrice = totalPrice;
         this.user = user;
         OrderDetails = orderDetails;
@@ -47,13 +54,17 @@ public class Order {
         this.receiverAddress = receiverAddress;
         this.receiverPhone = receiverPhone;
         this.status = status;
+        this.paymentRef = paymentRef;
+        this.paymentStatus = paymentStatus;
+        this.paymentMethod = paymentMethod;
     }
 
     @Override
     public String toString() {
         return "Order [id=" + id + ", totalPrice=" + totalPrice + ", user=" + user + ", OrderDetails=" + OrderDetails
                 + ", receiverName=" + receiverName + ", receiverAddress=" + receiverAddress + ", receiverPhone="
-                + receiverPhone + ", status=" + status + "]";
+                + receiverPhone + ", status=" + status + ", paymentRef=" + paymentRef + ", paymentStatus="
+                + paymentStatus + ", paymentMethod=" + paymentMethod + "]";
     }
 
     public Long getId() {
@@ -118,6 +129,30 @@ public class Order {
 
     public void setStatus(Boolean status) {
         this.status = status;
+    }
+
+    public String getPaymentRef() {
+        return paymentRef;
+    }
+
+    public void setPaymentRef(String paymentRef) {
+        this.paymentRef = paymentRef;
+    }
+
+    public String getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(String paymentStatus) {
+        this.paymentStatus = paymentStatus;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 
 }

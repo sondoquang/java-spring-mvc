@@ -31,6 +31,11 @@
 
                     <!-- Template Stylesheet -->
                     <link href="/client/css/style.css" rel="stylesheet">
+                    <meta name="_csrf" content="${_csrf.token}" />
+                    <!-- default header name is X-CSRF-TOKEN -->
+                    <meta name="_csrf_header" content="${_csrf.headerName}" />
+                    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.css"
+                        rel="stylesheet">
                     <title>Laptopshop</title>
                 </head>
 
@@ -90,14 +95,14 @@
                                                     </button>
                                                 </div>
                                             </div>
-                                            <form:form action="/product/${productId}/add" method="post">
-                                                <input type="text" class="form-control d-none" name="quantity"
-                                                    id="cartDetails0.quantity" value="1">
-                                                <button type="submit"
-                                                    class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i
-                                                        class="fa fa-shopping-bag me-2 text-primary"></i> Add to
-                                                    cart
-                                                </button>
+                                            <!-- <form:form action="/product/${productId}/add" method="post"> -->
+                                            <input type="text" class="form-control d-none" name="quantity"
+                                                id="cartDetails0.quantity" value="1">
+                                            <button type="submit" data-product-id="${product.id}"
+                                                class="btnAddToCart btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i
+                                                    class="fa fa-shopping-bag me-2 text-primary"></i> Add to
+                                                cart
+                                            </button>
                                             </form:form>
                                         </div>
                                         <div class="col-lg-12">
@@ -945,6 +950,8 @@
 
                     <!-- Template Javascript -->
                     <script src="/client/js/main.js"></script>
+                    <script
+                        src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>
                 </body>
 
                 </html>

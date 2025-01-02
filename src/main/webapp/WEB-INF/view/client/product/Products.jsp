@@ -31,6 +31,12 @@
 
                 <!-- Template Stylesheet -->
                 <link href="/client/css/style.css" rel="stylesheet">
+                <meta name="_csrf" content="${_csrf.token}" />
+
+                <!-- default header name is X-CSRF-TOKEN -->
+                <meta name="_csrf_header" content="${_csrf.headerName}" />
+                <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.css"
+                    rel="stylesheet">
                 <title>Laptopshop</title>
             </head>
 
@@ -64,7 +70,7 @@
                         <div class="row g-4">
                             <div class="col-12 col-md-4 text-start">
                                 <div class="row g-4">
-                                    <div class="col-12">
+                                    <div class="col-12" id="factoryFilter">
                                         <div class="mb-2"><b>Hãng sản xuất</b></div>
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="checkbox" id="factory-1"
@@ -96,7 +102,7 @@
                                         </div>
 
                                     </div>
-                                    <div class="col-12">
+                                    <div class="col-12" id="targetFilter">
                                         <div class="mb-2"><b>Mục đích sử dụng</b></div>
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="checkbox" id="target-1"
@@ -129,7 +135,7 @@
 
 
                                     </div>
-                                    <div class="col-12">
+                                    <div class="col-12" id="priceFilter">
                                         <div class="mb-2"><b>Mức giá</b></div>
 
                                         <div class="form-check form-check-inline">
@@ -140,21 +146,21 @@
 
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="checkbox" id="price-3"
-                                                value="10-15-trieu">
+                                                value="tu-10-15-trieu">
                                             <label class="form-check-label" for="price-3">Từ 10 - 15
                                                 triệu</label>
                                         </div>
 
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="checkbox" id="price-4"
-                                                value="15-20-trieu">
+                                                value="tu-15-20-trieu">
                                             <label class="form-check-label" for="price-4">Từ 15 - 20
                                                 triệu</label>
                                         </div>
 
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="checkbox" id="price-5"
-                                                value="tren-20-triệu">
+                                                value="tren-20-trieu">
                                             <label class="form-check-label" for="price-5">Trên 20 triệu</label>
                                         </div>
                                     </div>
@@ -175,14 +181,15 @@
 
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="radio" id="sort-3" value="gia-nothing"
-                                                name="radio-sort">
+                                                name="radio-sort" checked>
                                             <label class="form-check-label" for="sort-3">Không sắp xếp</label>
                                         </div>
 
                                     </div>
                                     <div class="col-12">
                                         <button
-                                            class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4">
+                                            class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4"
+                                            id="btnFilter">
                                             Lọc Sản Phẩm
                                         </button>
                                     </div>
@@ -192,7 +199,7 @@
                                 <div class="row g-4 ">
                                     <c:forEach var="product" items="${products}">
                                         <div class="col-md-6 col-xl-4">
-                                            <div class="rounded position-relative fruite-item">
+                                            <div class="rounded position-relative fruite-item h-auto">
                                                 <div class="fruite-img">
                                                     <a href="/products/${product.id}/detail"><img
                                                             src="/images/product/${product.image}"
@@ -213,14 +220,14 @@
                                                         </fmt:formatNumber>
                                                         <p class="text-dark fs-5 fw-bold mb-0">
                                                             ${price} đ</p>
-                                                        <form action="/product/${product.id}/add" method="post">
+                                                        <!-- <form action="/product/${product.id}/add" method="post">
                                                             <input type="hidden" name="${_csrf.parameterName}"
-                                                                value="${_csrf.token}" />
-                                                            <button type="submit"
-                                                                class="btn border border-secondary rounded-pill px-3 text-primary"><i
-                                                                    class="fa fa-shopping-bag me-2 text-primary"></i>
-                                                                Add to cart</button>
-                                                        </form>
+                                                                value="${_csrf.token}" /> -->
+                                                        <button type="submit" data-product-id="${product.id}"
+                                                            class="btnAddToCart btn border border-secondary rounded-pill px-3 text-primary"><i
+                                                                class="fa fa-shopping-bag me-2 text-primary"></i>
+                                                            Add to cart</button>
+                                                        <!-- </form> -->
                                                     </div>
                                                 </div>
                                             </div>
@@ -228,10 +235,13 @@
                                     </c:forEach>
                                 </div>
                                 <div class="col-sm-12">
-                                    <nav class="mt-5 text-center">
+                                    <p ${products.size()>0?'hidden':''} class="text-center">Không tìm thấy sản phẩm
+                                        phù hợp.</p>
+                                    <nav class="mt-5 text-center" ${products.size()>0?'':'hidden'}>
                                         <ul class="pagination justify-content-center d-inline-flex">
                                             <li class="page-item p-0">
-                                                <a class="page-link" href="/products?page=${param.pageNo>11?pageNo-1:1}"
+                                                <a class="page-link"
+                                                    href="/products?page=${param.pageNo>11?pageNo-1:1}${queryString}"
                                                     aria-label="Previous">
                                                     <span aria-hidden="true">&laquo;</span>
                                                 </a>
@@ -239,11 +249,11 @@
                                             <c:forEach var="page" begin="1" end="${size}" step="1">
                                                 <li class="page-item p-0"><a
                                                         class="page-link ${pageNo == page?'active':''}"
-                                                        href="/products?page=${page}">${page}</a></li>
+                                                        href="/products?page=${page}${queryString}">${page}</a></li>
                                             </c:forEach>
                                             <li class="page-item p-0">
                                                 <a class="page-link"
-                                                    href="/products?page=${param.pageNo<size?pageNo+1:size}"
+                                                    href="/products?page=${param.pageNo<size?pageNo+1:size}${queryString}"
                                                     aria-label="Next">
                                                     <span aria-hidden="true">&raquo;</span>
                                                 </a>
@@ -283,6 +293,8 @@
 
                 <!-- Template Javascript -->
                 <script src="/client/js/main.js"></script>
+                <script
+                    src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>
             </body>
 
             </html>

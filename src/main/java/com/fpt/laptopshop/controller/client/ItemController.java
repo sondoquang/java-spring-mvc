@@ -1,14 +1,21 @@
 package com.fpt.laptopshop.controller.client;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +25,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.fpt.laptopshop.domain.Cart;
 import com.fpt.laptopshop.domain.CartDetail;
 import com.fpt.laptopshop.domain.Product;
+import com.fpt.laptopshop.domain.Product_;
 import com.fpt.laptopshop.domain.User;
+import com.fpt.laptopshop.domain.dto.ProductCriteriaDto;
+import com.fpt.laptopshop.service.VNpayService;
 import com.fpt.laptopshop.service.iservice.ICartDetailService;
 import com.fpt.laptopshop.service.iservice.ICartService;
 import com.fpt.laptopshop.service.iservice.IOrderService;
@@ -40,36 +50,49 @@ public class ItemController {
     private final ICartDetailService cartDetailService;
     private final IUserService userService;
     private final IOrderService orderService;
+    private final VNpayService vNpayService;
 
     public ItemController(IProductService productService, ICartService cartService,
-            ICartDetailService cartDetailService, IUserService userService, IOrderService orderService) {
+            ICartDetailService cartDetailService, IUserService userService, IOrderService orderService,
+            VNpayService vNpayService) {
         this.productService = productService;
         this.cartService = cartService;
         this.cartDetailService = cartDetailService;
         this.userService = userService;
         this.orderService = orderService;
+        this.vNpayService = vNpayService;
     }
 
     @GetMapping("/products")
-    public String getProducts(Model model,
-            @RequestParam("page") Optional<String> pageNo,
-            @RequestParam("name") Optional<String> nameOptional) {
+    public String getProducts(Model model, ProductCriteriaDto productCriteriaDto, HttpServletRequest request) {
         int limit = 6;
         int page = 1;
         try {
-            page = Integer.parseInt(pageNo.get());
+            page = Integer.parseInt(productCriteriaDto.getPage().get());
         } catch (Exception e) {
             // TODO: handle exception
         }
 
-        String name = nameOptional.get();
+        String qs = request.getQueryString();
+        if (qs != null && !qs.isBlank()) {
+            qs = qs.replace("page=" + page, "");
+        }
 
         Pageable pageable = PageRequest.of(page - 1, limit);
-        Page<Product> list = productService.findAll(name, pageable);
+        if (productCriteriaDto.getSort() != null && productCriteriaDto.getSort().isPresent()) {
+            String sort = productCriteriaDto.getSort().get();
+            if (sort.equals("gia-tang-dan")) {
+                pageable = PageRequest.of(page - 1, limit, Sort.by(Product_.PRICE).ascending());
+            } else if (sort.equals("gia-giam-dan")) {
+                pageable = PageRequest.of(page - 1, limit, Sort.by(Product_.PRICE).descending());
+            }
+        }
+        Page<Product> list = productService.findAllWithSpec(pageable, productCriteriaDto);
         List<Product> products = list.getContent();
         model.addAttribute("products", products);
         model.addAttribute("size", list.getTotalPages());
         model.addAttribute("pageNo", page);
+        model.addAttribute("queryString", qs);
         return "client/product/Products";
     }
 
@@ -159,7 +182,9 @@ public class ItemController {
     public String postPlaceOrder(HttpServletRequest request,
             @RequestParam("receiverName") String name,
             @RequestParam("receiverAddress") String address,
-            @RequestParam("receiverPhone") String phone) {
+            @RequestParam("receiverPhone") String phone,
+            @RequestParam("paymentMethod") String paymentMethod,
+            @RequestParam("totalPrice") String totalPrice) throws NumberFormatException, UnsupportedEncodingException {
 
         HttpSession session = request.getSession(false);
         String email = session.getAttribute("email").toString();
@@ -168,9 +193,31 @@ public class ItemController {
         values.put("receiverName", name);
         values.put("receiverAddress", name);
         values.put("receiverPhone", name);
+        values.put("paymentMethod", paymentMethod);
 
+        final String uuid = UUID.randomUUID().toString().replace("-", "");
+        values.put("uuid", uuid);
         // add order for user //
         orderService.createPlaceOrder(user, values, session);
+
+        if (!paymentMethod.equals("COD")) {
+            // to do: redirect to vnPay
+            String ip = vNpayService.getIpAddress(request);
+            String vnpUrl = vNpayService.generateVNPayURL(Double.parseDouble(totalPrice), uuid, ip);
+            return "redirect:" + vnpUrl;
+        }
+        return "redirect:/thanks";
+    }
+
+    @GetMapping("/thanks")
+    public String getPaymentSuccess(Model model,
+            @RequestParam("vnp_TxnRef") Optional<String> paymentRef,
+            @RequestParam("vnp_ResponseCode") Optional<String> vnpayResponseCode) {
+        if (vnpayResponseCode.isPresent() && paymentRef.isPresent()) {
+            // check trạng thái thanh toán //
+            String paymentStatus = vnpayResponseCode.get().equals("00") ? "PAYMENT_SUCCESS" : "PAYMENT_FAILED";
+            orderService.updatePaymentRef(paymentRef.get(), paymentStatus);
+        }
         return "client/cart/PaymentSuccess";
     }
 

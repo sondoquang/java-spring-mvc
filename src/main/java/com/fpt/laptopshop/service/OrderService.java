@@ -3,6 +3,7 @@ package com.fpt.laptopshop.service;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -66,6 +67,10 @@ public class OrderService implements IOrderService {
         order.setReceiverPhone("receiverPhone");
         order.setTotalPrice(totalPrice);
         order.setStatus(true);
+
+        order.setPaymentMethod(maps.get("paymentMethod"));
+        order.setPaymentStatus("PAYMENT_UNPAID");
+        order.setPaymentRef(maps.get("paymentMethod").equals("COD") ? "UNKNOWN" : maps.get("uuid"));
         order = orderRepository.save(order);
         // step 3: create order - detail and delete cartDetail and update inventory
         // product
@@ -123,6 +128,17 @@ public class OrderService implements IOrderService {
     @Override
     public List<Order> findByUser(User user) {
         return orderRepository.findByUser(user);
+    }
+
+    @Override
+    public Order updatePaymentRef(String paymentRef, String status) {
+        Optional<Order> orderOptional = orderRepository.findByPaymentRef(paymentRef);
+        if (orderOptional.isPresent()) {
+            Order order = orderOptional.get();
+            order.setPaymentStatus(status);
+            return orderRepository.save(order);
+        }
+        return null;
     }
 
 }
